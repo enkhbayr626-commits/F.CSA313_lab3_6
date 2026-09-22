@@ -1,0 +1,5 @@
+Linux 6.6.87.2-microsoft-standard-WSL2
+k6 v2.3.0 (commit/e088784614, go1.26.8, linux/amd64)
+v18.19.1
+9.2.0
+Python 3.12.3

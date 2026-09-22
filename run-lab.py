@@ -76,6 +76,7 @@ with open('results/server.log', 'a') as server_log, open(f'results/{args.mode}.t
         output.write(f'cart_p95_ms={metrics["http_req_duration{name:cart}"]["p(95)"]:.4f}\n')
         output.write(f'report_p95_ms={metrics["http_req_duration{name:report}"]["p(95)"]:.4f}\n')
         output.write(f'request_error_budget={budget:.1f}\nbudget_excess={max(0, failed - budget):.1f}\n')
+        output.write(f'maximum_failed_requests={int(budget)}\nrequest_budget_overrun={max(0, failed - int(budget))}\n')
         if recovery is not None:
             output.write(f'time_error_budget_seconds=12\nrecovery_seconds={recovery:.3f}\n')
             output.write(f'recovery_slo_pass={recovery <= 12}\n')
@@ -88,4 +89,4 @@ with open('results/server.log', 'a') as server_log, open(f'results/{args.mode}.t
             server.terminate()
             server.wait()
 
-raise SystemExit(exit_code if recovery is None or recovery <= 12 else 1)
+raise SystemExit(exit_code or (1 if recovery is not None and recovery > 12 else 0))
